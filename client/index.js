@@ -191,6 +191,18 @@ console.table(specific_price_range);
 // 2. Log the variable
 // 3. Log the number of products by brands
 
+// with reduce
+
+const brands=marketplace.reduce((brands,p)=> {
+  const brand=brands[p.brand] || []
+  brand.push(p)
+  brands[p.brand]=brands
+  return brands
+}, {});
+
+console.log(brands);
+
+
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
