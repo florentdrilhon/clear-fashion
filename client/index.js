@@ -111,16 +111,45 @@ var products_by_price=marketplace.slice();
 //sort it
 sort_by_price(products_by_price);
 // log it
-products_by_price.forEach(function(product) {
-  console.log(product.price);
-});
+console.table(products_by_price);
 
+// other approach using the sorting function of JavaScript
+
+function compareByPrice(a,b){
+if (a.price<b.price)
+  return -1;
+if (a.price>b.price)
+  return 1;
+return 0
+}
+
+var products_by_price2=marketplace.slice();
+products_by_price2.sort(compareByPrice);
+//console.table(products_by_price2);
 
 
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
+
+function compareByDate(a,b){
+if (new Date(a.date)>new Date(b.date))
+  return -1;
+if (new Date(a.date)<new Date(b.date))
+  return 1;
+return 0
+}
+
+// make a copy of the marketplace array
+var products_by_date=marketplace.slice();
+
+//sort it
+products_by_date.sort(compareByDate)
+console.table(products_by_date);
+// log it
+
+
 
 
 // 🎯 TODO: Filter a specific price range
