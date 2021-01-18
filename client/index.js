@@ -69,25 +69,52 @@ var brands_name=[];
 
 for(var i=0; i<marketplace.length; i++)
 {
+  // checking if the brand is already in the array
   if(brands_name.includes(marketplace[i].brand)==false) {
+  // add the brand if not
   brands_name.push(marketplace[i].brand);
-}
+  }
 }
 
 console.log(brands_name);
 console.log(brands_name.length);
+
+// other solution with "map"
+const brandsList=marketplace.map(function(product){
+  return product.brand;
+})
+
 
 // 🎯 TODO: Sort by price
 // 1. Create a function to sort the marketplace products by price
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
 
-function sort_by_price(list_of_products) {
-  for(var i=0; i<list_of_products.length;i++)  {
-
-  }
-
+// bubble sort function
+function sort_by_price(products){
+   var len = products.length;
+   for (var i = len-1; i>=0; i--){
+     for(var j = 1; j<=i; j++){
+       if(products[j-1].price>products[j].price){
+           var temp = products[j-1];
+           products[j-1] = products[j];
+           products[j] = temp;
+        }
+     }
+   }
+   return products;
 }
+
+// make a copy of the marketplace array
+var products_by_price=marketplace.slice();
+
+//sort it
+sort_by_price(products_by_price);
+// log it
+products_by_price.forEach(function(product) {
+  console.log(product.price);
+});
+
 
 
 // 🎯 TODO: Sort by date
