@@ -65,6 +65,15 @@ console.log(number_of_products);
 // 2. Log the variable
 // 3. Log how many brands we have
 
+var brands_name=[];
+
+for(var i=0; i<marketplace.length; i++)
+{
+  var new_length=brands_name.push(marketplace[i].brand);
+}
+
+console.log(brands_name);
+console.log(brands_name.length);
 
 // 🎯 TODO: Sort by price
 // 1. Create a function to sort the marketplace products by price
