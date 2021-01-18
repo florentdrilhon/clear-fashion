@@ -156,6 +156,9 @@ console.table(products_by_date);
 // 1. Filter the list of products between 50€ and 100€
 // 2. Log the list
 
+const specific_price_range=marketplace.filter(product => (product.price>50 && product.price<100));
+console.table(specific_price_range);
+
 
 // 🎯 TODO: Average Basket
 // 1. Determine the average basket of the marketplace
