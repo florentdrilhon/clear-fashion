@@ -351,6 +351,27 @@ const COTELE_PARIS = [
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
 
+// return the difference in days between 2 dates
+function dayDiff(d1, d2)
+{
+  var res= Math.trunc((d1-d2)/86400000);
+  return res;
+}
+
+let new_release=false;
+let current_date= Date.now();
+COTELE_PARIS.forEach((product, i) => {
+  if (dayDiff(current_date,new Date(product.released))<14){
+    new_release=true;
+  }
+});
+
+console.log(new_release);
+
+
+
+
+
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
