@@ -209,7 +209,7 @@ marketplace.forEach((product, i) => {
     brands[product.brand]=[product];
   }
 });
-console.table(brands["adresse"]);
+console.table(brands.adresse);
 
 
 
@@ -231,14 +231,25 @@ console.log(brands);
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
 
-
-
+console.log("Products from each brand sorted by price :")
+// we access the keys of the object brands by calling the function Object.keys(myObject) which returns an array
+Object.keys(brands).forEach((brand, i) => {
+  // to sort, we reuse the function we defined earlier
+  brands[brand].sort(compareByPrice)
+  console.table(brands[brand]);
+});
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
 
-
+console.log("Products from each brand sorted by date :")
+// we access the keys of the object brands by calling the function Object.keys(myObject) which returns an array
+Object.keys(brands).forEach((brand, i) => {
+  // to sort, we reuse the function we defined earlier
+  brands[brand].sort(compareByDate)
+  console.table(brands[brand]);
+});
 
 
 
