@@ -361,6 +361,7 @@ function dayDiff(d1, d2)
 let new_release=false;
 let current_date= Date.now();
 COTELE_PARIS.forEach((product, i) => {
+  // check if one of the new releases is within 2 weeks
   if (dayDiff(current_date,new Date(product.released))<14){
     new_release=true;
   }
