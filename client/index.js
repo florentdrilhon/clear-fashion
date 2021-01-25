@@ -164,6 +164,15 @@ console.table(specific_price_range);
 // 1. Determine the average basket of the marketplace
 // 2. Log the average
 
+//gather the products corresponding to baskets or sneakers
+const baskets_list=marketplace.filter(product =>(product.name.toLowerCase().includes("basket")||product.name.toLowerCase().includes("sneaker")));
+var average_basket=0
+baskets_list.forEach((product, i) => {
+  average_basket = average_basket + product.price;
+});
+average_basket=average_basket/baskets_list.length;
+console.log("The average price for baskets in the marketplace is "+average_basket+"€");
+
 
 
 
@@ -191,8 +200,12 @@ console.table(specific_price_range);
 // 2. Log the variable
 // 3. Log the number of products by brands
 
+
+
+
 // with reduce
 
+/*
 const brands=marketplace.reduce((brands,p)=> {
   const brand=brands[p.brand] || []
   brand.push(p)
@@ -201,7 +214,7 @@ const brands=marketplace.reduce((brands,p)=> {
 }, {});
 
 console.log(brands);
-
+*/
 
 
 // 🎯 TODO: Sort by price for each brand
