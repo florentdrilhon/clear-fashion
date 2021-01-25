@@ -213,20 +213,6 @@ console.table(brands.adresse);
 
 
 
-// with reduce
-
-/*
-const brands=marketplace.reduce((brands,p)=> {
-  const brand=brands[p.brand] || []
-  brand.push(p)
-  brands[p.brand]=brands
-  return brands
-}, {});
-
-console.log(brands);
-*/
-
-
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
@@ -347,6 +333,8 @@ const COTELE_PARIS = [
   }
 ]
 
+console.table(COTELE_PARIS);
+
 // 🎯 TODO: New released products
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
@@ -378,15 +366,33 @@ console.log(new_release);
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
 
+let reasonable_shop=true;
+COTELE_PARIS.forEach((product, i) => {
+  if(product.price>100){
+    reasonable_shop=false;
+  }
+
+});
+console.log("Cotel Paris is a reasonable shop : " +reasonable_shop)
+
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
 
+const my_product=COTELE_PARIS.filter(product=>(product.uuid=="b56c6d88-749a-5b4c-b571-e5b5c6483131"))[0];
+console.log(my_product);
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
+
+COTELE_PARIS.forEach((product, i) => {
+  if(product.uuid=="b56c6d88-749a-5b4c-b571-e5b5c6483131"){
+    COTELE_PARIS.splice(i,1);
+  }
+});
+console.table(COTELE_PARIS);
 
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
@@ -402,6 +408,8 @@ jacket.favorite = true;
 
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
+
+
 
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
