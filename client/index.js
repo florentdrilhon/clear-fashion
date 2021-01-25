@@ -409,7 +409,10 @@ jacket.favorite = true;
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
 
+console.log(blueJacket);
+console.log(jacket);
 
+// the blueJacket object also has the new property "favorite"
 
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
@@ -418,6 +421,14 @@ blueJacket = {
 };
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
+
+jacket=JSON.parse(JSON.stringify(blueJacket));
+
+jacket.favorite= true;
+
+console.log(blueJacket);
+console.log(jacket);
+
 
 
 
