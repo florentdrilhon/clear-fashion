@@ -265,6 +265,17 @@ Object.keys(brands).forEach((brand, i) => {
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
 
 
+function p90(products){
+  products.sort(compareByPrice);
+  let index_p90=Math.trunc(products.length/10); //returns the integer truncature of a number
+  return products[index_p90].price;
+}
+
+Object.keys(brands).forEach((brand, i) => {
+  // to sort, we reuse the function we defined earlier
+  console.log("The p90 value for "+brand+" is "+p90(brands[brand])+"€");
+});
+
 
 
 
