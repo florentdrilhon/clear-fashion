@@ -200,6 +200,16 @@ console.log("The average price for baskets in the marketplace is "+average_baske
 // 2. Log the variable
 // 3. Log the number of products by brands
 
+var brands = new Object();
+marketplace.forEach((product, i) => {
+  if(brands[product.brand]){
+    brands[product.brand].push(product);
+  }
+  else {
+    brands[product.brand]=[product];
+  }
+});
+console.table(brands["adresse"]);
 
 
 
@@ -220,6 +230,8 @@ console.log(brands);
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
+
+
 
 
 // 🎯 TODO: Sort by date for each brand
