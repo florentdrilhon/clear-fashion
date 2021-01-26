@@ -6,10 +6,13 @@ let currentProducts = [];
 let currentPagination = {};
 let currentBrands=new Object();
 
+
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
-const selectBrand=document.querySelector('#brand-select')
+const selectBrand=document.querySelector('#brand-select');
+const filterPrice=document.querySelector('#reasonable-price');
+const filterRelease=document.querySelector('#recently-released');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -32,6 +35,7 @@ const setCurrentProducts = ({result, meta}) => {
   });
   brands["all"]=currentProducts;
   currentBrands=brands;
+
 };
 
 /**
@@ -117,7 +121,6 @@ const renderBrands=currentBrands =>{
     options+=`<option value="${brands[index]}">${brands[index]}</option>`;
   }
   selectBrand.innerHTML=options;
-  selectBrand.value="All";
 };
 
 const render = (products, pagination, currentBrands) => {
@@ -126,6 +129,9 @@ const render = (products, pagination, currentBrands) => {
   renderIndicators(pagination);
   renderBrands(currentBrands);
 };
+
+
+
 
 /**
  * Declaration of all Listeners
@@ -150,8 +156,13 @@ selectPage.addEventListener('change', event => {
 });
 
 selectBrand.addEventListener('change', event => {
-   render(currentBrands[event.target.value], currentPagination, currentBrands);
+   renderProducts(currentBrands[event.target.value]);
 });
+
+filterPrice.addEventListener('change', event => {
+   console.log("test");
+});
+
 
 
 
