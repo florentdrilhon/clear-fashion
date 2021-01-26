@@ -4,6 +4,7 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
+let currentBrands=new Object();
 
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
@@ -20,6 +21,17 @@ const spanNbProducts = document.querySelector('#nbProducts');
 const setCurrentProducts = ({result, meta}) => {
   currentProducts = result;
   currentPagination = meta;
+  let brands= new Object();
+  currentProducts.forEach((product, i) => {
+    if(brands[product.brand]){
+      brands[product.brand].push(product);
+    }
+    else {
+      brands[product.brand]=[product];
+    }
+  });
+  brands["all"]=currentProducts;
+  currentBrands=brands;
 };
 
 /**
@@ -97,10 +109,22 @@ const renderIndicators = pagination => {
   spanNbProducts.innerHTML = count;
 };
 
-const render = (products, pagination) => {
+const renderBrands=currentBrands =>{
+  let options='';
+  let brands=Object.keys(currentBrands);
+  for (var index=0; index<brands.length;index++)
+  {
+    options+=`<option value="${brands[index]}">${brands[index]}</option>`;
+  }
+  selectBrand.innerHTML=options;
+  selectBrand.value="All";
+};
+
+const render = (products, pagination, currentBrands) => {
   renderProducts(products);
   renderPagination(pagination);
   renderIndicators(pagination);
+  renderBrands(currentBrands);
 };
 
 /**
@@ -114,7 +138,7 @@ const render = (products, pagination) => {
 selectShow.addEventListener('change', event => {
   fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
     .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination));
+    .then(() => render(currentProducts, currentPagination, currentBrands));
 });
 
 // Feature 1: change page
@@ -122,8 +146,14 @@ selectShow.addEventListener('change', event => {
 selectPage.addEventListener('change', event => {
   fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
     .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination));
+    .then(() => render(currentProducts, currentPagination, currentBrands));
 });
+
+selectBrand.addEventListener('change', event => {
+   render(currentBrands[event.target.value], currentPagination, currentBrands);
+});
+
+
 
 
 
@@ -132,5 +162,5 @@ selectPage.addEventListener('change', event => {
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
     .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination))
+    .then(() => render(currentProducts, currentPagination, currentBrands))
 );
