@@ -96,6 +96,7 @@ const renderProducts = products => {
   fragment.appendChild(div);
   sectionProducts.innerHTML = '<h2>Products</h2>';
   sectionProducts.appendChild(fragment);
+
 };
 
 /**
@@ -117,31 +118,15 @@ const renderPagination = pagination => {
  * Render page selector
  * @param  {Object} pagination
  */
-const renderIndicators = pagination => {
-  const {count} = pagination;
-
-  spanNbProducts.innerHTML = count;
-};
 
 //no need for products, they are all contained in the "brand" object which simplifies the
 // variables management
 const render = (pagination, currentBrands, filters) => {
   renderProducts(applyFilter(currentBrands, filters));
   renderPagination(pagination);
-  renderIndicators(pagination);
+  renderIndicators(applyFilter(currentBrands, filters));
   renderBrands(currentBrands);
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -287,7 +272,14 @@ function sort(typeOfSort, brands) {
   return brands;
 }
 
+// feature 7: Indicate the number of products displayed
 
+//updating the indicator with the length of the array displayed
+const renderIndicators = products => {
+  spanNbProducts.innerHTML = products.length;
+};
+// this needs to be updated whenever the number of products displayer changes
+// when --> changing page/brand/filter/show
 
 
 /**
@@ -313,17 +305,20 @@ selectPage.addEventListener('change', event => {
 selectBrand.addEventListener('change', event => {
    currentFilter.brand=event.target.value;
    renderProducts(applyFilter(currentBrands,currentFilter));
+   renderIndicators(applyFilter(currentBrands,currentFilter));
 });
 
 
 filterPrice.addEventListener('change', event => {
    currentFilter = setCurrentFilter(currentFilter);
    renderProducts(applyFilter(currentBrands, currentFilter));
+   renderIndicators(applyFilter(currentBrands,currentFilter));
 });
 
 filterRelease.addEventListener('change', event => {
    currentFilter = setCurrentFilter(currentFilter);
    renderProducts(applyFilter(currentBrands, currentFilter));
+   renderIndicators(applyFilter(currentBrands,currentFilter));
 });
 
 selectSort.addEventListener('change', event =>{
