@@ -29,6 +29,8 @@ const spanNbProducts = document.querySelector('#nbProducts');
 const setCurrentProducts = ({result, meta}) => {
   currentProducts = result;
   currentPagination = meta;
+
+  //updating the brands of the available products
   let brands= new Object();
   currentProducts.forEach((product, i) => {
     if(brands[product.brand]){
@@ -40,6 +42,10 @@ const setCurrentProducts = ({result, meta}) => {
   });
   brands["all"]=currentProducts;
   currentBrands=brands;
+  //like that when we change page, we keep the sorting method by applying it on the
+  if(selectSort){
+    currentBrands=sort(selectSort.value, currentBrands);
+  }
 };
 
 /**
@@ -117,8 +123,9 @@ const renderIndicators = pagination => {
   spanNbProducts.innerHTML = count;
 };
 
-
-const render = (products, pagination, currentBrands, filters) => {
+//no need for products, they are all contained in the "brand" object which simplifies the
+// variables management
+const render = (pagination, currentBrands, filters) => {
   renderProducts(applyFilter(currentBrands, filters));
   renderPagination(pagination);
   renderIndicators(pagination);
@@ -132,19 +139,7 @@ const render = (products, pagination, currentBrands, filters) => {
 
 
 
-/**
- * Declaration of all Listeners
- */
 
-/**
- * Select the number of products to display
- * @type {[type]}
- */
-selectShow.addEventListener('change', event => {
-  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
-    .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination, currentBrands, currentFilter));
-});
 
 
 
@@ -228,15 +223,91 @@ function applyFilter(brands, filters){
   return res;
 }
 
+// feature 5 & 6 : sort by price
+
+//first the function to sort an array of product by ascending price
+function price_asc(a,b){
+if (a.price<b.price){
+  return -1;}
+if (a.price>b.price){
+  return 1;}
+return 0
+}
+
+//the function to sort an array of product in descending price
+function price_desc(a,b){
+if (a.price<b.price){
+  return 1;}
+if (a.price>b.price){
+  return -1;}
+return 0
+}
+
+//the function to sort by ascending date
+
+function date_asc(a,b){
+if (new Date(a.released)>new Date(b.released))
+  return -1;
+if (new Date(a.released)<new Date(b.released))
+  return 1;
+return 0
+}
+
+//the function to sort by descending date
+function date_desc(a,b){
+if (new Date(a.released)>new Date(b.released))
+  return 1;
+if (new Date(a.released)<new Date(b.released))
+  return -1;
+return 0
+}
 
 
 
-//Listeners
+//function to apply the sorting parameter by simply modifying the currentBrands object
+
+//only the brands are needed because the products are displayed and rendered from this object only
+function sort(typeOfSort, brands) {
+  if(typeOfSort=='price-asc'){
+    Object.keys(brands).forEach((brand, i) => {
+      brands[brand].sort(price_asc);
+    });}
+  else if (typeOfSort=='price-desc'){
+    Object.keys(brands).forEach((brand, i) => {
+      brands[brand].sort(price_desc);
+    });}
+  else if (typeOfSort=='date-asc'){
+    Object.keys(brands).forEach((brand, i) => {
+      brands[brand].sort(date_asc);
+    });}
+  else if (typeOfSort=='date-desc'){
+    Object.keys(brands).forEach((brand, i) => {
+      brands[brand].sort(date_desc);
+    });}
+  return brands;
+}
+
+
+
+
+/**
+ * Declaration of all Listeners
+ */
+
+/**
+ * Select the number of products to display
+ * @type {[type]}
+ */
+selectShow.addEventListener('change', event => {
+  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
+    .then(setCurrentProducts)
+    .then(() => render( currentPagination, currentBrands, currentFilter));
+});
 
 selectPage.addEventListener('change', event => {
   fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
     .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination, currentBrands, currentFilter));
+    .then(() => render(currentPagination, currentBrands, currentFilter));
 });
 
 selectBrand.addEventListener('change', event => {
@@ -255,15 +326,14 @@ filterRelease.addEventListener('change', event => {
    renderProducts(applyFilter(currentBrands, currentFilter));
 });
 
-
-
-
-
-
+selectSort.addEventListener('change', event =>{
+  currentBrands=sort(event.target.value, currentBrands);
+  renderProducts(applyFilter(currentBrands,currentFilter));
+})
 
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
     .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination, currentBrands, currentFilter))
+    .then(() => render(currentPagination, currentBrands, currentFilter))
 );
