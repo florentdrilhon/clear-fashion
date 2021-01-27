@@ -375,6 +375,16 @@ COTELE_PARIS.forEach((product, i) => {
 });
 console.log("Cotel Paris is a reasonable shop : " +reasonable_shop)
 
+function product_by_price(products){
+  res=[];
+  products.forEach((product, i) => {
+    if(product.price<=100){
+      res.push(product);
+    }
+  });
+}
+module.export(product_by_price);
+
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
