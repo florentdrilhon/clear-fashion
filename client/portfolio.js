@@ -19,6 +19,7 @@ const filterRelease=document.querySelector('#recently-released');
 const selectSort=document.querySelector('#sort-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
+const spanNewProducts = document.querySelector('#newProducts');
 
 /**
  * Set global value
@@ -275,8 +276,12 @@ function sort(typeOfSort, brands) {
 // feature 7: Indicate the number of products displayed
 
 //updating the indicator with the length of the array displayed
+// number of recent products
+
 const renderIndicators = products => {
   spanNbProducts.innerHTML = products.length;
+  spanNewProducts.innerHTML= recent_products(products).length;
+
 };
 // this needs to be updated whenever the number of products displayer changes
 // when --> changing page/brand/filter/show
