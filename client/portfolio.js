@@ -23,6 +23,7 @@ const spanNewProducts = document.querySelector('#newProducts');
 const spanP50=document.querySelector('#p50');
 const spanP90=document.querySelector('#p90');
 const spanP95=document.querySelector('#p95');
+const spanLastRelease=document.querySelector('#last-release');
 
 /**
  * Set global value
@@ -284,10 +285,10 @@ function sort(typeOfSort, brands) {
 const renderIndicators = products => {
   spanNbProducts.innerHTML = products.length;
   spanNewProducts.innerHTML= recent_products(products).length;
-  spanP50.innerHTML=percentile(products,50);
-  spanP90.innerHTML=percentile(products,90);
-  spanP95.innerHTML=percentile(products,95);
-
+  spanP50.innerHTML=percentile(products,50)+"€";
+  spanP90.innerHTML=percentile(products,90)+"€";
+  spanP95.innerHTML=percentile(products,95)+"€";
+  spanLastRelease.innerHTML=products.sort(date_asc)[0].released;
 };
 
 // this needs to be updated whenever the number of products displayer changes
