@@ -20,6 +20,9 @@ const selectSort=document.querySelector('#sort-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 const spanNewProducts = document.querySelector('#newProducts');
+const spanP50=document.querySelector('#p50');
+const spanP90=document.querySelector('#p90');
+const spanP95=document.querySelector('#p95');
 
 /**
  * Set global value
@@ -273,7 +276,7 @@ function sort(typeOfSort, brands) {
   return brands;
 }
 
-// feature 7: Indicate the number of products displayed
+// feature 7-8-9-10-11: Indicate the number of products displayed
 
 //updating the indicator with the length of the array displayed
 // number of recent products
@@ -281,10 +284,28 @@ function sort(typeOfSort, brands) {
 const renderIndicators = products => {
   spanNbProducts.innerHTML = products.length;
   spanNewProducts.innerHTML= recent_products(products).length;
+  spanP50.innerHTML=percentile(products,50);
+  spanP90.innerHTML=percentile(products,90);
+  spanP95.innerHTML=percentile(products,95);
 
 };
+
 // this needs to be updated whenever the number of products displayer changes
 // when --> changing page/brand/filter/show
+
+//function to compute the specified percentile of the products
+
+function percentile(products, perc){
+  //first order the products by descending price
+  products.sort(price_desc);
+  //get the index of needed product
+  let index=Math.trunc(products.length/100*perc); //returns the integer truncature of a number
+  return products[index].price;
+}
+
+
+
+
 
 
 /**
