@@ -90,7 +90,7 @@ const renderProducts = products => {
       return `
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
-        <a href="${product.link}">${product.name}</a>
+        <a href="${product.link}" target="_blank">${product.name}</a>
         <span>${product.price}</span>
       </div>
     `;
@@ -304,6 +304,9 @@ function percentile(products, perc){
   return products[index].price;
 }
 
+
+//feature 12 : modification of the function "renderProduct"
+// ---> target="_blank" argument added in the html override
 
 
 
