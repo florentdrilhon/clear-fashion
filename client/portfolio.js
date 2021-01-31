@@ -283,12 +283,12 @@ function sort(typeOfSort, brands) {
 // number of recent products
 
 const renderIndicators = products => {
-  spanNbProducts.innerHTML = products.length;
-  spanNewProducts.innerHTML= recent_products(products).length;
-  spanP50.innerHTML=percentile(products,50)+"€";
-  spanP90.innerHTML=percentile(products,90)+"€";
-  spanP95.innerHTML=percentile(products,95)+"€";
-  spanLastRelease.innerHTML=products.sort(date_asc)[0].released;
+  spanNbProducts.innerHTML =`<strong>${ products.length}</strong>`;
+  spanNewProducts.innerHTML=`<strong>${ recent_products(products).length}</strong>`;
+  spanP50.innerHTML=`<strong>${percentile(products,50)+"€"}</strong>`;
+  spanP90.innerHTML=`<strong>${percentile(products,90)+"€"}</strong>`;
+  spanP95.innerHTML=`<strong>${percentile(products,95)+"€"}</strong>`;
+  spanLastRelease.innerHTML=`<strong>${products.sort(date_asc)[0].released}</strong>`;
 };
 
 // this needs to be updated whenever the number of products displayer changes
