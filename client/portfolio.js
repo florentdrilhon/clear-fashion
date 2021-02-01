@@ -9,6 +9,8 @@ let currentPagination = {};
 let currentBrands=new Object();
 let currentFilter={price:false, release:false, brand:"all"};
 
+let currentFavorites= [];
+
 
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
@@ -24,6 +26,8 @@ const spanP50=document.querySelector('#p50');
 const spanP90=document.querySelector('#p90');
 const spanP95=document.querySelector('#p95');
 const spanLastRelease=document.querySelector('#last-release');
+const sectionFavorites=document.querySelector('#Favorites');
+
 
 /**
  * Set global value
@@ -87,13 +91,15 @@ const renderProducts = products => {
   const div = document.createElement('div');
   const template = products
     .map(product => {
-      return `
+      return (`
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
         <a href="${product.link}" target="_blank">${product.name}</a>
-        <span>${product.price}</span>
-      </div>
-    `;
+        <span>${product.price}</span>`).concat(
+          (currentFavorites.includes(product)) ?
+        `<span><button onclick="removeFavorite('${product.uuid}')">Remove favorite</button></span>` :
+        `<span><button onclick="addFavorite('${product.uuid}')">Add favorite</button></span>`
+      ).concat('\n</div>');
     })
     .join('');
 
@@ -103,6 +109,17 @@ const renderProducts = products => {
   sectionProducts.appendChild(fragment);
 
 };
+
+const addFavorite = (uuid) => {
+  currentFavorites.push(currentProducts.find(product => product.uuid==uuid));
+  render();
+
+}
+
+const removeFavorite = (uuid) => {
+  currentFavorites=currentFavorites.filter(product => product.uuid != uuid);
+  render();
+}
 
 /**
  * Render page selector
@@ -119,6 +136,19 @@ const renderPagination = pagination => {
   selectPage.selectedIndex = currentPage - 1;
 };
 
+
+const renderFavorites = (favorites=currentFavorites) => {
+  const template = `<h2>Favorites</h2>` + favorites.map(product => {
+      return (`
+      <div class="product" id=${product.uuid}>
+        <span>${product.brand}</span>
+        <a href="${product.link}" target="_blank">${product.name}</a>
+        <span>${product.price}</span>
+        </div>`) ;
+    })
+    .join('');
+      sectionFavorites.innerHTML=template;
+}
 /**
  * Render page selector
  * @param  {Object} pagination
@@ -126,11 +156,12 @@ const renderPagination = pagination => {
 
 //no need for products, they are all contained in the "brand" object which simplifies the
 // variables management
-const render = (pagination, currentBrands, filters) => {
-  renderProducts(applyFilter(currentBrands, filters));
+const render = (pagination=currentPagination, brands=currentBrands, filters=currentFilter) => {
+  renderProducts(applyFilter(brands, filters));
   renderPagination(pagination);
-  renderIndicators(applyFilter(currentBrands, filters));
-  renderBrands(currentBrands);
+  renderIndicators(applyFilter(brands, filters));
+  renderBrands(brands);
+  renderFavorites();
 };
 
 
@@ -355,6 +386,7 @@ selectSort.addEventListener('change', event =>{
   currentBrands=sort(event.target.value, currentBrands);
   renderProducts(applyFilter(currentBrands,currentFilter));
 })
+
 
 
 document.addEventListener('DOMContentLoaded', () =>
