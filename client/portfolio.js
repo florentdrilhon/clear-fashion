@@ -7,7 +7,7 @@ let currentPagination = {};
 
 //new objects for the features
 let currentBrands=new Object();
-let currentFilter={price:false, release:false, brand:"all"};
+let currentFilter={price:false, release:false, brand:"all", favorite:false};
 
 let currentFavorites= [];
 
@@ -26,7 +26,7 @@ const spanP50=document.querySelector('#p50');
 const spanP90=document.querySelector('#p90');
 const spanP95=document.querySelector('#p95');
 const spanLastRelease=document.querySelector('#last-release');
-const sectionFavorites=document.querySelector('#Favorites');
+const filterFavorites=document.querySelector('#favorites');
 
 
 /**
@@ -110,16 +110,6 @@ const renderProducts = products => {
 
 };
 
-const addFavorite = (uuid) => {
-  currentFavorites.push(currentProducts.find(product => product.uuid==uuid));
-  render();
-
-}
-
-const removeFavorite = (uuid) => {
-  currentFavorites=currentFavorites.filter(product => product.uuid != uuid);
-  render();
-}
 
 /**
  * Render page selector
@@ -137,18 +127,6 @@ const renderPagination = pagination => {
 };
 
 
-const renderFavorites = (favorites=currentFavorites) => {
-  const template = `<h2>Favorites</h2>` + favorites.map(product => {
-      return (`
-      <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
-        <a href="${product.link}" target="_blank">${product.name}</a>
-        <span>${product.price}</span>
-        </div>`) ;
-    })
-    .join('');
-      sectionFavorites.innerHTML=template;
-}
 /**
  * Render page selector
  * @param  {Object} pagination
@@ -161,7 +139,6 @@ const render = (pagination=currentPagination, brands=currentBrands, filters=curr
   renderPagination(pagination);
   renderIndicators(applyFilter(brands, filters));
   renderBrands(brands);
-  renderFavorites();
 };
 
 
@@ -199,6 +176,11 @@ function setCurrentFilter(currentFilter) {
   } else{
     currentFilter["price"]=false;
   }
+  if(filterFavorites.checked==true){
+    currentFilter["favorite"]=true;
+  } else{
+    currentFilter["favorite"]=false;
+  }
   return currentFilter;
 }
 
@@ -234,6 +216,9 @@ function recent_products(products){
 // function to apply the filters
 function applyFilter(brands, filters){
   let res=brands[filters.brand];
+  if (filters["favorite"]==true){
+    res=currentFavorites;
+  }
   if (filters["price"]==true){
     res=reasonable_products(res);
   }
@@ -314,12 +299,15 @@ function sort(typeOfSort, brands) {
 // number of recent products
 
 const renderIndicators = products => {
+
+  if(products.length>0){
   spanNbProducts.innerHTML =`<strong>${ products.length}</strong>`;
   spanNewProducts.innerHTML=`<strong>${ recent_products(products).length}</strong>`;
   spanP50.innerHTML=`<strong>${percentile(products,50)+"€"}</strong>`;
   spanP90.innerHTML=`<strong>${percentile(products,90)+"€"}</strong>`;
   spanP95.innerHTML=`<strong>${percentile(products,95)+"€"}</strong>`;
   spanLastRelease.innerHTML=`<strong>${products.sort(date_asc)[0].released}</strong>`;
+}
 };
 
 // this needs to be updated whenever the number of products displayer changes
@@ -328,11 +316,13 @@ const renderIndicators = products => {
 //function to compute the specified percentile of the products
 
 function percentile(products, perc){
+
+  if (products.length>0){
   //first order the products by descending price
   products.sort(price_desc);
   //get the index of needed product
   let index=Math.trunc(products.length/100*perc); //returns the integer truncature of a number
-  return products[index].price;
+  return products[index].price;}
 }
 
 
@@ -340,7 +330,26 @@ function percentile(products, perc){
 // ---> target="_blank" argument added in the html override
 
 
+//feature 13 :
+// creation of a currentFavorites variable
+//modification of the renderProduct function to add a button after each product
 
+const addFavorite = (uuid) => {
+  currentFavorites.push(currentProducts.find(product => product.uuid==uuid));
+  render();
+
+}
+
+const removeFavorite = (uuid) => {
+  currentFavorites=currentFavorites.filter(product => product.uuid != uuid);
+  render();
+}
+
+//feature 14:
+
+// modification of the currentFilter variable by adding a favorite filter
+// adding the new filter in the "setCurrentFilter" and "applyFilter" functions
+// adding a security by the length of the product array argument in the renderIndicators function
 
 
 /**
@@ -381,6 +390,13 @@ filterRelease.addEventListener('change', event => {
    renderProducts(applyFilter(currentBrands, currentFilter));
    renderIndicators(applyFilter(currentBrands,currentFilter));
 });
+
+filterFavorites.addEventListener('change', event => {
+   currentFilter = setCurrentFilter(currentFilter);
+   renderProducts(applyFilter(currentBrands, currentFilter));
+   renderIndicators(applyFilter(currentBrands,currentFilter));
+});
+
 
 selectSort.addEventListener('change', event =>{
   currentBrands=sort(event.target.value, currentBrands);
