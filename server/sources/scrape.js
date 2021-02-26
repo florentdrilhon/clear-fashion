@@ -20,7 +20,11 @@ async function load_data(url){
   return null;
 };
 
-async function scrape(dedicatedbrand){
+
+//as dedicated brand returns a complete JSON file, there is no need to get through
+// all the categories, so the scraping function is not like the other brands.
+
+async function scrape_dedicated(dedicatedbrand){
   let data=await load_data('https://www.dedicatedbrand.com/en/');
   let res=[];
   await asyncForEach(dedicatedbrand.get_categories(data), async (url) => {
@@ -34,11 +38,14 @@ async function scrape_adress(adress){
     let data=await load_data('https://adresse.paris/602-nouveautes');
     let res=[];
     let urls=adress.get_categories(data);
-    await asyncForEach(Object.values(urls), async (url) => {
-      data = await load_data(url);
-      res.push(adress.parse(data));
+    await asyncForEach(Object.keys(urls), async (category) => {
+      data = await load_data(urls[category]);
+      let products=adress.parse(data,category)
+      products.forEach((element)=>{
+        res.push(element);
+      })
     });
-    console.log(res.length);
+    console.log(res);
 }
 
 scrape_adress(adress);
