@@ -1,4 +1,5 @@
 const dedicatedbrand=require('./dedicatedbrand');
+const adress=require('./adress');
 const axios = require("axios");
 
 
@@ -29,5 +30,20 @@ async function scrape(dedicatedbrand){
   return res;
 };
 
+async function scrape_adress(adress){
+    let data=await load_data('https://adresse.paris/602-nouveautes');
+    let res=[];
+    let urls=adress.get_categories(data);
+    await asyncForEach(Object.values(urls), async (url) => {
+      data = await load_data(url);
+      res.push(adress.parse(data));
+    });
+    console.log(res.length);
+}
 
-module.exports={scrape};
+scrape_adress(adress);
+
+
+
+
+//module.exports={scrape}
