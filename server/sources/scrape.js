@@ -1,6 +1,7 @@
 const dedicatedbrand=require('./dedicatedbrand');
 const adress=require('./adress');
 const axios = require("axios");
+const mudjeans=require('./mudjeans');
 
 
 // asynchronous forEach Loop
@@ -34,13 +35,13 @@ async function scrape_dedicated(dedicatedbrand){
   return res;
 };
 
-async function scrape_adress(adress){
-    let data=await load_data('https://adresse.paris/602-nouveautes');
+async function scrape_brands(brand){
+    let data=await load_data(brand.url);
     let res=[];
-    let urls=adress.get_categories(data);
+    let urls=brand.get_categories(data);
     await asyncForEach(Object.keys(urls), async (category) => {
       data = await load_data(urls[category]);
-      let products=adress.parse(data,category)
+      let products=brand.parse(data,category)
       products.forEach((element)=>{
         res.push(element);
       })
@@ -48,9 +49,14 @@ async function scrape_adress(adress){
     console.log(res);
 }
 
-scrape_adress(adress);
 
+async function test(){
+  let data=await load_data('https://mudjeans.eu/collections/men-buy-jeans');
+  let categories=mudjeans.parse(data);
+  console.log(categories);
+}
 
+scrape_brands(mudjeans);
 
 
 //module.exports={scrape}
