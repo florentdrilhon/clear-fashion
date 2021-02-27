@@ -1,6 +1,8 @@
 'use strict'
 const cheerio = require('cheerio');
 
+const url = 'https://adresse.paris/';
+
 
 const get_categories = data => {
   const $ = cheerio.load(data);
@@ -52,4 +54,4 @@ const parse = (data,category) => {
 
 
 
-module.exports = {get_categories, parse};
+module.exports = {get_categories, parse, url};

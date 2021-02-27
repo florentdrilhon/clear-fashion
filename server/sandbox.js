@@ -1,17 +1,18 @@
 /* eslint-disable no-console, no-process-exit */
-const scrape = require('./sources/scrape');
-const dedicatedbrand=require('./sources/dedicatedbrand');
+const scraper = require('./sources/scrape');
+const dedicatedbrand=require('./sources/dedicated2');
+const adress=require('./sources/adress');
+const mudjeans=require('./sources/mudjeans');
 
 
 
 
-async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/') {
+async function sandbox (eshop) {
   try {
-    console.log(`🕵️‍♀️  browsing ${eshop} source`);
+    console.log(`🕵️‍♀️  browsing ${eshop.url} source`);
 
-    const products = await scrape.scrape(dedicatedbrand);
-    console.log(products);
-    process.exit(0);
+    const products = await scraper.scrape(eshop);
+    return products
   } catch (e) {
     console.error(e);
     process.exit(1);
@@ -21,4 +22,15 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/') {
 const [,, eshop] = process.argv;
 
 
-sandbox();
+let brands=[dedicatedbrand, adress, mudjeans];
+
+let res={}
+
+scraper.asyncForEach(brands, async (brand)=>{
+    const products=await sandbox(brand);
+    console.log(products.length);
+    res[brand.url]=products;
+})
+
+console.log(Object.keys(res));
+

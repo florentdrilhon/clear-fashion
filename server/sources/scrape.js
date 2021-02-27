@@ -1,4 +1,4 @@
-const dedicatedbrand=require('./dedicatedbrand');
+const dedicatedbrand=require('./dedicated2');
 const adress=require('./adress');
 const axios = require("axios");
 const mudjeans=require('./mudjeans');
@@ -22,22 +22,17 @@ async function load_data(url){
 };
 
 
-//as dedicated brand returns a complete JSON file, there is no need to get through
-// all the categories, so the scraping function is not like the other brands.
 
-async function scrape_dedicated(dedicatedbrand){
-  let data=await load_data('https://www.dedicatedbrand.com/en/');
-  let res=[];
-  await asyncForEach(dedicatedbrand.get_categories(data), async (url) => {
-    data = await load_data(url);
-    res.push(dedicatedbrand.parse(data));
-  });
-  return res;
-};
 
-async function scrape_brands(brand){
-    let data=await load_data(brand.url);
+async function scrape(brand){
     let res=[];
+    //as dedicated brand returns a complete JSON file, there is no need to get through
+  // all the categories, so the scraping function is not like the other brands.
+    if(brand.url=='https://www.dedicatedbrand.com/en/'){
+        res= await brand.scrape()
+    } else {
+
+    let data=await load_data(brand.url);
     let urls=brand.get_categories(data);
     await asyncForEach(Object.keys(urls), async (category) => {
       data = await load_data(urls[category]);
@@ -46,17 +41,12 @@ async function scrape_brands(brand){
         res.push(element);
       })
     });
-    console.log(res);
+  }
+  return(res);
 }
 
 
-async function test(){
-  let data=await load_data('https://mudjeans.eu/collections/men-buy-jeans');
-  let categories=mudjeans.parse(data);
-  console.log(categories);
-}
-
-scrape_brands(mudjeans);
 
 
-//module.exports={scrape}
+
+module.exports={scrape, asyncForEach}

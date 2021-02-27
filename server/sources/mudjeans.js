@@ -51,7 +51,7 @@ const parse = (data,category=null) => {
         .find('img')
         .attr('src')
        
-    return {name, price,link,image};
+    return {name, price,link,image, category};
     })
     .get();
 };
