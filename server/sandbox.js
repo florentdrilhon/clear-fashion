@@ -7,8 +7,6 @@ const mudjeans=require('./sources/mudjeans');
 const fs=require('fs');
 
 
-
-
 async function sandbox (eshop) {
   try {
     console.log(`🕵️‍♀️  browsing ${eshop.url} source`);
