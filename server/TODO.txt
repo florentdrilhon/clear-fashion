@@ -1,0 +1,2 @@
+trouver un moyen d'avoir un format commun clean
+fichier JSON

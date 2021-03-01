@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const cheerio = require('cheerio');
 
 const url = 'https://mudjeans.eu/';
@@ -31,6 +31,7 @@ const parse = (data,category=null) => {
 
   return  $('.product-link.product-link__grid')
     .map((i, element) => {
+      const brand='MUD Jeans';
       const name = $(element)
         .find('.product-title > a')
         .text()
@@ -51,7 +52,7 @@ const parse = (data,category=null) => {
         .find('img')
         .attr('src')
        
-    return {name, price,link,image, category};
+    return {brand,name, price,link,image, category};
     })
     .get();
 };

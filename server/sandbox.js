@@ -1,8 +1,10 @@
-/* eslint-disable no-console, no-process-exit */
+'use strict';
+
 const scraper = require('./sources/scrape');
-const dedicatedbrand=require('./sources/dedicated2');
+const dedicatedbrand=require('./sources/dedicatedbrand');
 const adress=require('./sources/adress');
 const mudjeans=require('./sources/mudjeans');
+const fs=require('fs');
 
 
 
@@ -24,13 +26,16 @@ const [,, eshop] = process.argv;
 
 let brands=[dedicatedbrand, adress, mudjeans];
 
-let res={}
+async function main() {
+  let res=[]
 
-scraper.asyncForEach(brands, async (brand)=>{
+  await scraper.asyncForEach(brands, async (brand)=>{
     const products=await sandbox(brand);
     console.log(products.length);
-    res[brand.url]=products;
-})
+    res=res.concat(products);
+  });
+console.log(res.length);
+}
 
-console.log(Object.keys(res));
+main();
 

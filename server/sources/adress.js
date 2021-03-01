@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const cheerio = require('cheerio');
 
 const url = 'https://adresse.paris/';
@@ -31,6 +31,7 @@ const parse = (data,category) => {
 
   return  $('.product-container')
     .map((i, element) => {
+      const brand = 'Adresse'
       const name = $(element)
         .find('.versionpc .product-name')
         .text()
@@ -47,7 +48,7 @@ const parse = (data,category) => {
       const image =$(element)
         .find('.replace-2x.img-responsive.lazy.img_0.img_1e')
         .attr('data-original')
-    return {name, price, link, category, image};
+    return {brand, name, price, link, image, category};
     })
     .get();
 };

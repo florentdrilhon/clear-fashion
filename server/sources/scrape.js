@@ -1,7 +1,6 @@
-const dedicatedbrand=require('./dedicated2');
-const adress=require('./adress');
+'use strict';
 const axios = require("axios");
-const mudjeans=require('./mudjeans');
+
 
 
 // asynchronous forEach Loop
