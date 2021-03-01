@@ -26,6 +26,33 @@ const [,, eshop] = process.argv;
 
 let brands=[dedicatedbrand, adress, mudjeans];
 
+
+function storeProducts(products) {
+  let data=JSON.stringify(products);
+  // checking if the file already exist
+  fs.stat('./data/products.json', function (err, stats) {
+ 
+    if (err) {
+        //the file does not exist
+          fs.writeFile("./data/products.json", data, function(error){
+          if(error){console.log(error);}
+          console.log("Products successfully added in the file");
+        })
+        return console.error(err);
+    }
+ 
+    fs.unlink('./data/products.json',function(err){
+         if(err) return console.log(err);
+         console.log('file deleted successfully');
+         fs.writeFile("data/products.json", data, function(error){
+          if(error){console.log(error);}
+          console.log("Products successfully added in the file");
+        })
+         
+    });  
+ });}
+
+
 async function main() {
   let res=[]
 
@@ -34,7 +61,8 @@ async function main() {
     console.log(products.length);
     res=res.concat(products);
   });
-console.log(res.length);
+  console.log("Products scrapped, storing in a JSON file");
+  storeProducts(res);
 }
 
 main();
