@@ -53,8 +53,7 @@ async function getProductByBrand(mongo_uri, mongo_db_name, brandname) {
     const cursor= await collection.find({
         brand : brandname ,
     });
-    let products=[];
-    await cursor.forEach(doc => products.push(doc));
+    const products= await cursor.toArray()
     await client.close();
     console.log(products);
     return products;
@@ -69,8 +68,22 @@ async function getProductCheaperThan(mongo_uri, mongo_db_name, thresholdPrice) {
     const cursor= await collection.find({
         price : { $lt : thresholdPrice } ,
     });
-    let products=[];
-    await cursor.forEach(doc => products.push(doc));
+    const products= await cursor.toArray()
+    await client.close();
+    console.log(products);
+    return products;
+}
+
+
+async function getProductSortedByPrice(mongo_uri, mongo_db_name) {
+    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
+    const db =  client.db(mongo_db_name);
+    const collection = db.collection('products');
+
+    // find method of mongo driver send back a cursor object
+    const sort={price:1};
+    const cursor= await collection.find({}).sort(sort);
+    const products= await cursor.toArray()
     await client.close();
     console.log(products);
     return products;
@@ -86,4 +99,4 @@ async function getProductCheaperThan(mongo_uri, mongo_db_name, thresholdPrice) {
 // insertProductsFromJSON(MONGODB_URI,MONGODB_DB_NAME);
 // deleteAllProducts(MONGODB_URI, MONGODB_DB_NAME);
 
-let test=getProductCheaperThan(MONGODB_URI, MONGODB_DB_NAME, 10);
+let test=getProductSortedByPrice(MONGODB_URI, MONGODB_DB_NAME);
