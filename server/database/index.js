@@ -40,11 +40,50 @@ async function deleteAllProducts (mongo_uri, mongo_db_name){
             res => console.log(res.result),
             error => console.error(error)
         )
-    client.close()
+    await client.close();
+}
+
+
+async function getProductByBrand(mongo_uri, mongo_db_name, brandname) {
+    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
+    const db =  client.db(mongo_db_name);
+    const collection = db.collection('products');
+
+    // find method of mongo driver send back a cursor object
+    const cursor= await collection.find({
+        brand : brandname ,
+    });
+    let products=[];
+    await cursor.forEach(doc => products.push(doc));
+    await client.close();
+    console.log(products);
+    return products;
+}
+
+async function getProductCheaperThan(mongo_uri, mongo_db_name, thresholdPrice) {
+    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
+    const db =  client.db(mongo_db_name);
+    const collection = db.collection('products');
+
+    // find method of mongo driver send back a cursor object
+    const cursor= await collection.find({
+        price : { $lt : thresholdPrice } ,
+    });
+    let products=[];
+    await cursor.forEach(doc => products.push(doc));
+    await client.close();
+    console.log(products);
+    return products;
 }
 
 
 
 
-insertProductsFromJSON(MONGODB_URI,MONGODB_DB_NAME);
+
+
+
+
+// insertProductsFromJSON(MONGODB_URI,MONGODB_DB_NAME);
 // deleteAllProducts(MONGODB_URI, MONGODB_DB_NAME);
+
+let test=getProductCheaperThan(MONGODB_URI, MONGODB_DB_NAME, 10);
