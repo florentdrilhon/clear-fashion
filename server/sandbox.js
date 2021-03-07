@@ -28,21 +28,21 @@ let brands=[dedicatedbrand, adress, mudjeans];
 function storeProducts(products) {
   let data=JSON.stringify(products);
   // checking if the file already exist
-  fs.stat('./data/products.json', function (err, stats) {
+  fs.stat('./database/products.json', function (err, stats) {
  
     if (err) {
-        //the file does not exist
-          fs.writeFile("./data/products.json", data, function(error){
+        //the file does not exist, create it
+          fs.writeFile("./database/products.json", data, function(error){
           if(error){console.log(error);}
           console.log("Products successfully added in the file");
         })
         return console.error(err);
     }
- 
-    fs.unlink('./data/products.json',function(err){
+    // the file does exists, deleting it to avoid doublons when scraping several times
+    fs.unlink('./database/products.json',function(err){
          if(err) return console.log(err);
          console.log('file deleted successfully');
-         fs.writeFile("data/products.json", data, function(error){
+         fs.writeFile("database/products.json", data, function(error){
           if(error){console.log(error);}
           console.log("Products successfully added in the file");
         })

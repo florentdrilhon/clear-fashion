@@ -9,7 +9,7 @@ const get_info = (product)=> {
   const brand = "DEDICATED";
   const name=product.name;
   const price = parseFloat(product.price.price);
-  const link= 'https://www.dedicatedbrand.com/en/loadfilter'+product.canonicalUri;
+  const link= 'https://www.dedicatedbrand.com/en/'+product.canonicalUri;
   const image=product.image[0];
   const category=link.split('/')[5];
   return {brand, name,price,link,image,category};
@@ -28,7 +28,8 @@ const parse=()=>{
           // cleaning the non object values (there are some null array)
           result=result.filter(product => product.canonicalUri);
           // keeping only the men products
-          result=result.filter(product => product.canonicalUri.includes('men/'));
+          result=result.filter(product => (product.canonicalUri.includes('men/')==true) && 
+          (product.canonicalUri.includes('women/')==false));
           resolve(result);
         });
       

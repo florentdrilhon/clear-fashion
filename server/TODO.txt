@@ -1,4 +1,3 @@
-retourner tous les produits triés par prix
 régler souci tri dedicated scraper
 trouver un moyen de vérifier si un produit est déjà dans la base avant de l'insérer (UID)
 rassembler les différentes fonctions de recherches en une seule avec plusieurs argument pour specifier les filtres etc

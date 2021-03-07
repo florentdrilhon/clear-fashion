@@ -37,7 +37,7 @@ async function deleteAllProducts (mongo_uri, mongo_db_name){
     const collection = db.collection('products');
     collection.remove({})
         .then(
-            res => console.log(res.result),
+            res => console.log(`Successfuly deleted ${res.result.n} documents`),
             error => console.error(error)
         )
     await client.close();
@@ -99,4 +99,4 @@ async function getProductSortedByPrice(mongo_uri, mongo_db_name) {
 // insertProductsFromJSON(MONGODB_URI,MONGODB_DB_NAME);
 // deleteAllProducts(MONGODB_URI, MONGODB_DB_NAME);
 
-let test=getProductSortedByPrice(MONGODB_URI, MONGODB_DB_NAME);
+let test=getProductByBrand(MONGODB_URI, MONGODB_DB_NAME, "DEDICATED");
