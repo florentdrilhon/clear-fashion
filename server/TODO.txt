@@ -1,2 +1,4 @@
-trouver un moyen d'avoir un format commun clean
-fichier JSON
+chercher un produit en fonction de sa marque
+cherche un prod dont le prix est inférieur à un certain prix donné
+retourner tous les produits triés par prix
+trouver un moyen de vérifier si un produit est déjà dans la base avant de l'insérer (UID)

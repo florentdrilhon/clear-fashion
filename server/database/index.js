@@ -16,24 +16,19 @@ async function main (mongo_uri, mongo_db_name){
     client.close();
 }
 
-async function insertFromJSON (collection){
-    const products=await fs.readFile("../data/products.json", (err,jsonString)=>{
+function getJSONProducts (){
+    return fs.readFile("database/products.json", (err,jsonString)=>{
         if (err){
             console.log("Error reading the file");
             return 
         }
-        try {
-            const products=JSON.parse(jsonString);
+            const res=JSON.parse(jsonString);
             console.log('Products successfully got');
-            return products
-
-        } catch(err) {
-            console.log('Error parsing json string : ',err);
-        }
+            console.log(res[0]);
+            return res;
     });
-    const result=await collection.insertMany(products);
-    console.log(result)
-
 }
 
-main(MONGODB_URI,MONGODB_DB_NAME);
+
+//main(MONGODB_URI,MONGODB_DB_NAME);
+getJSONProducts();
