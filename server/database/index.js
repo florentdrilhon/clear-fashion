@@ -6,9 +6,6 @@ const MONGODB_DB_NAME = 'clearfashion';
 const fs=require('fs');
 
 
-function getJSONProducts (){
-    
-}
 
 async function insertProductsFromJSON (mongo_uri, mongo_db_name){
     const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
