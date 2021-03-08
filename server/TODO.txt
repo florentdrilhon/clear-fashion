@@ -1,3 +1,7 @@
-
+refaire scrapeur adresse
+supprimer fichier "scrape.js" et faire pour chaque marque une fonction scrape
 trouver un moyen de vérifier si un produit est déjà dans la base avant de l'insérer (UID)
+créer classe "db" pour rassembler les fonctions d'accès
+dans db faire une fonction query et une fonction insert
+
 rassembler les différentes fonctions de recherches en une seule avec plusieurs argument pour specifier les filtres etc

@@ -2,8 +2,10 @@
 'use strict';
 
 const url = 'https://www.dedicatedbrand.com/en/';
-
 const request=require('request');
+const {'v5': uuidv5} = require('uuid');
+
+
 
 const get_info = (product)=> {
   const brand = "DEDICATED";
@@ -12,7 +14,8 @@ const get_info = (product)=> {
   const link= 'https://www.dedicatedbrand.com/en/'+product.canonicalUri;
   const image=product.image[0];
   const category=link.split('/')[5];
-  return {brand, name,price,link,image,category};
+  const _id= uuidv5(link, uuidv5.URL);
+  return {brand, name,price,link,image,category, _id};
 }
 
 const parse=()=>{

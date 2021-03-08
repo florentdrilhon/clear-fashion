@@ -1,7 +1,7 @@
 'use strict';
 const cheerio = require('cheerio');
-
 const url = 'https://mudjeans.eu/';
+const {'v5': uuidv5} = require('uuid');
 
 
 const get_categories = data => {
@@ -51,8 +51,9 @@ const parse = (data,category=null) => {
       const image =$(element)
         .find('img')
         .attr('src')
+      
        
-    return {brand,name, price,link,image, category};
+    return {brand,name, price,link,image, category,'_id' : uuidv5(link, uuidv5.URL)};
     })
     .get();
 };

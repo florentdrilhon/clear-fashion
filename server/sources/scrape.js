@@ -34,6 +34,7 @@ async function scrape(brand){
     let data=await load_data(brand.url);
     let urls=brand.get_categories(data);
     await asyncForEach(Object.keys(urls), async (category) => {
+      console.log(`Scraping ${urls[category]}`);
       data = await load_data(urls[category]);
       let products=brand.parse(data,category)
       products.forEach((element)=>{
