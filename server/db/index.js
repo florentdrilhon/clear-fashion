@@ -16,6 +16,7 @@ let database = null;
 const getDB = module.exports.getDB = async () => {
   try {
     if (database) {
+      console.log('💽  Already Connected');
       return database;
     }
 
