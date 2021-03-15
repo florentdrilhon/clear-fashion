@@ -1,4 +1,17 @@
 
+
 se renseigner sur dotenv package pour stocker les mdp et keys
 
-construire API
+DATABASE:
+- fermer la connection après insertion/query
+
+
+API :
+- ajouter les endpoints pour faire des requêtes
+- ajouter les filtres aux endpoints
+- deployer l'API
+
+CLIENT :
+- requester MON api pour fetch les products
+- deployer le client
+- retravailler le front-end

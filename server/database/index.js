@@ -3,7 +3,7 @@
 const {MongoClient} = require('mongodb');
  // TODO put this information in a .config file 
  
-const MONGODB_URI ="mongodb+srv://admin-user:ULTRA_password_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const MONGODB_URI ="mongodb+srv://admin-user:le_booliste_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const MONGODB_DB_NAME = "clearfashion"
 //const config = require("../config");
 const fs=require('fs');
@@ -27,6 +27,7 @@ class MongoCluster {
                 console.log("Already connected");
             }
             else {
+                console.log("Connecting to the database");
                 // db not connected, initiating connection
                 this.client = await MongoClient.connect(this.mongo_uri, {'useNewUrlParser': true});
                 this.db =  this.client.db(this.mongo_db_name);
@@ -63,7 +64,8 @@ class MongoCluster {
     // function to make a query
 
     async find(query){
-        try{
+
+        try{ 
             // check if connected and connect if not
             await this.connect();
             // applying the query
@@ -73,6 +75,7 @@ class MongoCluster {
         } catch(error){
             // if error, display it and return null
             console.log("Error when querying the products :", error);
+            process.exit(1);
             return null;
         }
     }

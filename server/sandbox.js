@@ -7,7 +7,7 @@ const mudjeans=require('./sources/mudjeans');
 const fs=require('fs');
 const mongo=require('./database/index');
 
-const MONGODB_URI ="mongodb+srv://admin-user:ULTRA_password_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const MONGODB_URI ="mongodb+srv://admin-user:le_booliste_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const MONGODB_DB_NAME = "clearfashion"
 
 
@@ -48,6 +48,7 @@ async function main() {
   });
   // scrapping finish, inserting the array of products in the DB
   console.log("Products scrapped, storing in the database");
+  await mongocluster.removeProducts({});
   await mongocluster.insert(res);
   await mongocluster.close();
 }
