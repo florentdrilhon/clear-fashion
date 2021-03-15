@@ -1,8 +1,5 @@
-créer classe "db" pour rassembler les fonctions d'accès
 
 se renseigner sur dotenv package pour stocker les mdp et keys
-
-dans db faire une fonction query et une fonction insert
 
 
 rassembler les différentes fonctions de recherches en une seule avec plusieurs argument pour specifier les filtres etc

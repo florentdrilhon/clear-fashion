@@ -47,6 +47,7 @@ class MongoCluster {
             //try insert the products
             const result=await this.collection.insertMany(products, {'ordered': false});
             // return the result
+            console.log(`Successfully inserted ${result.result.n} products in the database`);
             return result;
         } catch(error){
             //catch error if error
@@ -59,9 +60,38 @@ class MongoCluster {
              };
         }
     }
-    //TODO function to make a query
+    // function to make a query
 
-    
+    async find(query){
+        try{
+            // check if connected and connect if not
+            await this.connect();
+            // applying the query
+            const result=await this.collection.find(query).toArray();
+            //returning the results
+            return result
+        } catch(error){
+            // if error, display it and return null
+            console.log("Error when querying the products :", error);
+            return null;
+        }
+    }
+
+    //function to remove from the DB
+    async removeProducts(query){
+        //taking as argument a query describing the products to remove
+        try {
+            // check if connected, connect if not
+            await this.connect();
+            // try to remove the products
+            const result = await this.collection.remove(query);
+            //display the result of the query
+            console.log(`Successfuly deleted ${result.result.n} documents`)
+        } catch(error){
+            // log error if error
+            console.log("Error when removing the products :", error)
+        }
+    }
     
     // function to close the connection
     async close(){
@@ -83,10 +113,15 @@ async function test(Mongocluster){
     await Mongocluster.connect();
     const result=await Mongocluster.insert(products);
     console.log(result);
+    const query=await Mongocluster.find({});
+    console.log(query);
+    await Mongocluster.removeProducts({});
     Mongocluster.close();
 }
 
 test(Mongocluster);
+
+module.exports= MongoCluster;
 
 
 /*
