@@ -5,15 +5,23 @@ const dedicatedbrand=require('./sources/dedicatedbrand');
 const adress=require('./sources/adress');
 const mudjeans=require('./sources/mudjeans');
 const fs=require('fs');
+const mongo=require('./database/index');
+
+const MONGODB_URI ="mongodb+srv://admin-user:ULTRA_password_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const MONGODB_DB_NAME = "clearfashion"
 
 
-async function sandbox (eshop) {
+// function to use the scraper for a given brand
+async function sandbox (brand) {
   try {
-    console.log(`🕵️‍♀️  browsing ${eshop.url} source`);
 
-    const products = await scraper.scrape(eshop);
+    console.log(`🕵️‍♀️  browsing ${brand.url} source`);
+    // trying to scrape the url of the brand
+    const products = await scraper.scrape(brand);
+    // returning result
     return products
   } catch (e) {
+    // if error, exiting the program
     console.error(e);
     process.exit(1);
   }
@@ -24,43 +32,24 @@ const [,, eshop] = process.argv;
 
 let brands=[dedicatedbrand, adress, mudjeans];
 
-
-function storeProducts(products) {
-  let data=JSON.stringify(products);
-  // checking if the file already exist
-  fs.stat('./database/products.json', function (err, stats) {
- 
-    if (err) {
-        //the file does not exist, create it
-          fs.writeFile("./database/products.json", data, function(error){
-          if(error){console.log(error);}
-          console.log("Products successfully added in the file");
-        })
-        return console.error(err);
-    }
-    // the file does exists, deleting it to avoid doublons when scraping several times
-    fs.unlink('./database/products.json',function(err){
-         if(err) return console.log(err);
-         console.log('file deleted successfully');
-         fs.writeFile("database/products.json", data, function(error){
-          if(error){console.log(error);}
-          console.log("Products successfully added in the file");
-        })
-         
-    });  
- });}
-
+// main function to orchestrate the scrapping
 
 async function main() {
   let res=[]
-
+  // initialization of the database connection
+  const mongocluster=new mongo(MONGODB_URI, MONGODB_DB_NAME);
+  
+  // scraping the products from the brands
   await scraper.asyncForEach(brands, async (brand)=>{
     const products=await sandbox(brand);
-    console.log(products.length);
+    console.log(`Scraped ${products.length} products`);
+    // storing the products in an array
     res=res.concat(products);
   });
-  console.log("Products scrapped, storing in a JSON file");
-  storeProducts(res);
+  // scrapping finish, inserting the array of products in the DB
+  console.log("Products scrapped, storing in the database");
+  await mongocluster.insert(res);
+  await mongocluster.close();
 }
 
 main();

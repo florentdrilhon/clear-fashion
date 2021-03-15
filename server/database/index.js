@@ -42,7 +42,7 @@ class MongoCluster {
     async insert(products){
         //take the array as arg
         //check if the client is connected, connect if not
-        this.connect();
+        await this.connect();
         try {
             //try insert the products
             const result=await this.collection.insertMany(products, {'ordered': false});
@@ -102,119 +102,7 @@ class MongoCluster {
             console.log("Error closing the connection :", error);
         }
     }
-};
-
-
-
-let Mongocluster = new MongoCluster(MONGODB_URI, MONGODB_DB_NAME);
-
-async function test(Mongocluster){
-    const products=[{brand:"LAcoste", name: "le polo stylax"}, {brand:"Tu le c", name: "eh la bb"}];
-    await Mongocluster.connect();
-    const result=await Mongocluster.insert(products);
-    console.log(result);
-    const query=await Mongocluster.find({});
-    console.log(query);
-    await Mongocluster.removeProducts({});
-    Mongocluster.close();
 }
 
-test(Mongocluster);
 
 module.exports= MongoCluster;
-
-
-/*
-    async insert (){
-        const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
-        const db =  client.db(mongo_db_name);
-        const collection = db.collection('products');
-
-    return fs.readFile("database/products.json", (err,jsonString)=>{
-        if (err){
-            console.log("Error reading the file");
-            return 
-        }
-            const products=JSON.parse(jsonString);
-            console.log('Products successfully got');
-            collection.insertMany(products)
-            .then(
-                res => console.log(`Successfuly inserted ${res.result.n} documents`),
-                error => console.error(error)
-            );
-            client.close();
-    });    
-}
-
-async function deleteAllProducts (mongo_uri, mongo_db_name){
-    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
-    const db =  client.db(mongo_db_name);
-    const collection = db.collection('products');
-    collection.remove({})
-        .then(
-            res => console.log(`Successfuly deleted ${res.result.n} documents`),
-            error => console.error(error)
-        )
-    await client.close();
-}
-
-
-async function getProductByBrand(mongo_uri, mongo_db_name, brandname) {
-    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
-    const db =  client.db(mongo_db_name);
-    const collection = db.collection('products');
-
-    // find method of mongo driver send back a cursor object
-    const cursor= await collection.find({
-        brand : brandname ,
-    });
-    const products= await cursor.toArray()
-    await client.close();
-    console.log(products);
-    return products;
-}
-
-async function getProductCheaperThan(mongo_uri, mongo_db_name, thresholdPrice) {
-    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
-    const db =  client.db(mongo_db_name);
-    const collection = db.collection('products');
-
-    // find method of mongo driver send back a cursor object
-    const cursor= await collection.find({
-        price : { $lt : thresholdPrice } ,
-    });
-    const products= await cursor.toArray()
-    await client.close();
-    console.log(products);
-    return products;
-}
-
-
-async function getProductSortedByPrice(mongo_uri, mongo_db_name) {
-    const client = await MongoClient.connect(mongo_uri, {'useNewUrlParser': true});
-    const db =  client.db(mongo_db_name);
-    const collection = db.collection('products');
-
-    // find method of mongo driver send back a cursor object
-    const sort={price:1};
-    const cursor= await collection.find({}).sort(sort);
-    const products= await cursor.toArray()
-    await client.close();
-    console.log(products);
-    return products;
-}
-
-
-
-
-
-
-
-
-
-// insertProductsFromJSON(MONGODB_URI,MONGODB_DB_NAME);
-// deleteAllProducts(MONGODB_URI, MONGODB_DB_NAME);
-
-//let test=getProductByBrand(MONGODB_URI, MONGODB_DB_NAME, "DEDICATED");
-
-*/
