@@ -7,8 +7,7 @@ DATABASE:
 
 
 API :
-- ajouter les endpoints pour faire des requêtes
-- ajouter les filtres aux endpoints
+
 - deployer l'API
 
 CLIENT :

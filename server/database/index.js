@@ -47,8 +47,9 @@ class MongoCluster {
         try {
             //try insert the products
             const result=await this.collection.insertMany(products, {'ordered': false});
-            // return the result
+            // return the result and close connection
             console.log(`Successfully inserted ${result.result.n} products in the database`);
+            await this.close();
             return result;
         } catch(error){
             //catch error if error
@@ -70,7 +71,8 @@ class MongoCluster {
             await this.connect();
             // applying the query
             const result=await this.collection.find(query).limit(limit).toArray();
-            //returning the results
+            //returning the results and close connection
+            await this.close();
             return result
         } catch(error){
             // if error, display it and return null
@@ -88,7 +90,8 @@ class MongoCluster {
             await this.connect();
             // try to remove the products
             const result = await this.collection.remove(query);
-            //display the result of the query
+            //display the result of the query and close connection
+            await this.close();
             console.log(`Successfuly deleted ${result.result.n} documents`)
         } catch(error){
             // log error if error

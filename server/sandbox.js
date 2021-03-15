@@ -48,9 +48,7 @@ async function main() {
   });
   // scrapping finish, inserting the array of products in the DB
   console.log("Products scrapped, storing in the database");
-  await mongocluster.removeProducts({});
   await mongocluster.insert(res);
-  await mongocluster.close();
 }
 
 main();
