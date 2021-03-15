@@ -26,14 +26,36 @@ app.get('/', (request, response) => {
 });
 
 //endpoint to get a simple product by its id
-app.get('/products/:id', async (request,response) => {
+app.get('/product/:id', async (request,response) => {
   const _id=request.params.id;
   const product=await mydb.find({_id});
-  response.send({product});
+  if (product){
+    response.send({product});
+  } response.send("No product found");
 });
 
-app.get('/products/search', async (req,res)=>{
 
+//endpoint to make a query with parameters
+app.get('/products/search', async (req,res)=>{
+  // setting the base parameters
+  let limit=12;
+  let brand="";
+  let price=10000;
+  // if parameters are specified in the endpoint, get them
+  if (req.query.limit){
+    limit=parseInt(req.query.limit);
+  }
+  if (req.query.brand){
+    brand=req.query.brand
+  }
+  if (req.query.price){
+    price=parseFloat(req.query.price);
+  }
+  // making the query and sending it to the database
+  const query={ brand, "price":{$lte : price}}
+  const products=await mydb.find(query,limit);
+  // sending back the products
+  res.send(products);
 });
 
 app.listen(PORT);

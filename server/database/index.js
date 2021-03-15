@@ -63,13 +63,13 @@ class MongoCluster {
     }
     // function to make a query
 
-    async find(query){
-
+    async find(query,limit=12){
+        console.log("\nSending query to the database \n", query);
         try{ 
             // check if connected and connect if not
             await this.connect();
             // applying the query
-            const result=await this.collection.find(query).toArray();
+            const result=await this.collection.find(query).limit(limit).toArray();
             //returning the results
             return result
         } catch(error){
