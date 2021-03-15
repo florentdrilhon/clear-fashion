@@ -1,6 +1,4 @@
 
 se renseigner sur dotenv package pour stocker les mdp et keys
 
-
-rassembler les différentes fonctions de recherches en une seule avec plusieurs argument pour specifier les filtres etc
 construire API
