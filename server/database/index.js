@@ -1,11 +1,6 @@
-'user strict';
+'use strict';
 
 const {MongoClient} = require('mongodb');
- // TODO put this information in a .config file 
- 
-const MONGODB_URI ="mongodb+srv://admin-user:le_booliste_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const MONGODB_DB_NAME = "clearfashion"
-//const config = require("../config");
 const fs=require('fs');
 
 
@@ -30,8 +25,8 @@ class MongoCluster {
                 console.log("Connecting to the database");
                 // db not connected, initiating connection
                 this.client = await MongoClient.connect(this.mongo_uri, {'useNewUrlParser': true});
-                this.db =  this.client.db(this.mongo_db_name);
-                this.collection = this.db.collection('products');
+                this.db =  await this.client.db(this.mongo_db_name);
+                this.collection = await this.db.collection('products');
                 console.log("Connected");
             }
         } catch(error){
@@ -70,10 +65,12 @@ class MongoCluster {
             // check if connected and connect if not
             await this.connect();
             // applying the query
+            console.log("getting product from the database...")
             const result=await this.collection.find(query).limit(limit).toArray();
+            console.log(result.length, " products gathered from the db");
             //returning the results and close connection
             await this.close();
-            return result
+            return result;
         } catch(error){
             // if error, display it and return null
             console.log("Error when querying the products :", error);
@@ -103,6 +100,8 @@ class MongoCluster {
     async close(){
         try {
             await this.client.close();
+            this.db=null;
+            this.collection=null;
             console.log("Connection closed")
         } catch(error){
             console.log("Error closing the connection :", error);
