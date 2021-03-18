@@ -8,7 +8,7 @@ DATABASE:
 
 API :
 
-- deployer l'API
+- deployer l'API avec vercel (matter cours)
 
 CLIENT :
 - requester MON api pour fetch les products

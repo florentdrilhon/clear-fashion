@@ -4,11 +4,12 @@ const scraper = require('./sources/scrape');
 const dedicatedbrand=require('./sources/dedicatedbrand');
 const adress=require('./sources/adress');
 const mudjeans=require('./sources/mudjeans');
-const fs=require('fs');
 const mongo=require('./database/index');
+require('dotenv').config();
 
-const MONGODB_URI ="mongodb+srv://admin-user:le_booliste_92@clear-fashion-cluster.nnulq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const MONGODB_DB_NAME = "clearfashion"
+
+const MONGODB_URI=process.env.MONGODB_URI;
+const MONGODB_DB_NAME=process.env.MONGODB_DB_NAME;
 
 
 // function to use the scraper for a given brand
