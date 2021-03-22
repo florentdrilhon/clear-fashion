@@ -151,9 +151,9 @@ const render = (pagination=currentPagination, brands=currentBrands, filters=curr
 
 //the object current brand has been created
 //the function setCurrentProducts has been modified to update the brands too
-const renderBrands=currentBrands =>{
+const renderBrands=crntBrands =>{
   let options='';
-  let brands=Object.keys(currentBrands);
+  let brands=Object.keys(crntBrands);
   for (var index=0; index<brands.length;index++)
   {
     options+=`<option value="${brands[index]}">${brands[index]}</option>`;
@@ -168,23 +168,23 @@ const renderBrands=currentBrands =>{
 // object "currentFilter" has been created
 
 // function to update the status of the check box associated with the filters
-function setCurrentFilter(currentFilter) {
+function setCurrentFilter(crntFilter) {
   if(filterRelease.checked==true){
-    currentFilter["release"]=true;
+    crntFilter["release"]=true;
   } else{
-    currentFilter["release"]=false;
+    crntFilter["release"]=false;
   }
   if(filterPrice.checked==true){
-    currentFilter["price"]=true;
+    crntFilter["price"]=true;
   } else{
-    currentFilter["price"]=false;
+    crntFilter["price"]=false;
   }
   if(filterFavorites.checked==true){
-    currentFilter["favorite"]=true;
+    crntFilter["favorite"]=true;
   } else{
-    currentFilter["favorite"]=false;
+    crntFilter["favorite"]=false;
   }
-  return currentFilter;
+  return crntFilter;
 }
 
 // function to get the products having a reasonable price
