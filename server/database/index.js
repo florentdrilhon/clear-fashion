@@ -59,14 +59,17 @@ class MongoCluster {
     }
     // function to make a query
 
-    async find(query,limit=12){
+    async find(query,size=12, page=1){
         console.log("\nSending query to the database \n", query);
         try{ 
             // check if connected and connect if not
             await this.connect();
             // applying the query
             console.log("getting product from the database...")
-            const result=await this.collection.find(query).limit(limit).toArray();
+            const result=await this.collection.find(query)
+                    .skip(page>0 ? ((page-1)*size):0)
+                    .limit(size)
+                    .toArray();
             console.log(result.length, " products gathered from the db");
             //returning the results and close connection
             await this.close();
@@ -74,8 +77,20 @@ class MongoCluster {
         } catch(error){
             // if error, display it and return null
             console.log("Error when querying the products :", error);
-            process.exit(1);
-            return null;
+            return null
+            
+        }
+    }
+
+    // function to get the total number of products in the database
+    async getCount() {
+        try{
+            await this.connect();
+            const result= await this.collection.count();
+            return result;
+        } catch (error) {
+            console.log("Error when getting the count of documents in the database : ",error)
+            return null
         }
     }
 

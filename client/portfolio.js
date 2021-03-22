@@ -42,7 +42,6 @@ const setCurrentProducts = ({result, meta}) => {
   //updating the brands of the available products
   let brands= new Object();
   currentProducts.forEach((product, i) => {
-    if(product.brand=='loom'){product.photo="https:".concat(product.photo); }
     if(brands[product.brand]){
       brands[product.brand].push(product);
     }
@@ -67,7 +66,7 @@ const setCurrentProducts = ({result, meta}) => {
 const fetchProducts = async (page=1 , size = 12) => {
   try {
     const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+      `https://api-server-mu.vercel.app/products/search?page=${page}&size=${size}`
     );
     const body = await response.json();
 
@@ -94,15 +93,15 @@ const renderProducts = products => {
   const template = products
     .map(product => {
       return (`
-      <div class="product-container" id=${product.uuid}>
-        <img src="${product.photo}" alt="product photo" class="product-photo"/>
+      <div class="product-container" id=${product._id}>
+        <img src="${product.image}" alt="product photo" class="product-photo"/>
         <div class="product-info">
           <h3><a href="${product.link}" target="_blank" class="product-name">${product.name}</a></h3>
           <div class="product-brand">${product.brand}</div>
           <div class="product-price">${product.price}€</div>`).concat(
           (currentFavorites.includes(product)) ?
-          `<div class="product-button-favorite"><button onclick="removeFavorite('${product.uuid}')">Remove favorite</button></div>` :
-          `<div><button onclick="addFavorite('${product.uuid}')">Add favorite</button></div>`
+          `<div class="product-button-favorite"><button onclick="removeFavorite('${product._id}')">Remove favorite</button></div>` :
+          `<div><button onclick="addFavorite('${product._id}')">Add favorite</button></div>`
       ).concat('\n</div>\n</div>');
     })
     .join('');
@@ -338,14 +337,14 @@ function percentile(products, perc){
 // creation of a currentFavorites variable
 //modification of the renderProduct function to add a button after each product
 
-const addFavorite = (uuid) => {
-  currentFavorites.push(currentProducts.find(product => product.uuid==uuid));
+const addFavorite = (_id) => {
+  currentFavorites.push(currentProducts.find(product => product._id==_id));
   render();
 
 }
 
-const removeFavorite = (uuid) => {
-  currentFavorites=currentFavorites.filter(product => product.uuid != uuid);
+const removeFavorite = (_id) => {
+  currentFavorites=currentFavorites.filter(product => product._id != _id);
   render();
 }
 
