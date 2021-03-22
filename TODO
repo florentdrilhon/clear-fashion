@@ -1,15 +1,16 @@
 lien de l'API vercel : https://api-server-mu.vercel.app/
 
+SCRAPER :
+
+- scraper les dates de release
+
+
 API :
 
-- se renseigner sur les headers
-- checker pagination
+- requêter les produits récemment sortis en priorité
+
 
 CLIENT :
 
-- construire component "product"
-- lier à mon API pour fetcher des products
-- Créer des filters
-- requester MON api pour fetch les products
 - deployer le client
 - retravailler le front-end (react ?)
