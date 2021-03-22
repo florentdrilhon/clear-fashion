@@ -16,7 +16,7 @@ const get_info = (product)=> {
   const image=product.image[0];
   const category=link.split('/')[5];
   const _id= uuidv5(link, uuidv5.URL);
-  const release= product.price.saleStartDate;
+  const release = (new Date).toLocaleDateString('en-US');
   return {brand, name,price,link,image,category, _id, release};
 }
 

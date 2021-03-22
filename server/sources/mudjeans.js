@@ -52,8 +52,10 @@ const parse = (data,category=null) => {
         .find('img')
         .attr('src')
       
+      const release = (new Date).toLocaleDateString('en-US');
+      
        
-    return {brand,name, price,link,image, category,'_id' : uuidv5(link, uuidv5.URL)};
+    return {brand,name, price,link,image, category, release, '_id' : uuidv5(link, uuidv5.URL)};
     })
     .get();
 };
