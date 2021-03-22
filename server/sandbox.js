@@ -39,6 +39,7 @@ async function main() {
   let res=[]
   // initialization of the database connection
   const mongocluster=new mongo(MONGODB_URI, MONGODB_DB_NAME);
+  await mongocluster.removeProducts({});
   
   // scraping the products from the brands
   await scraper.asyncForEach(brands, async (brand)=>{
@@ -50,6 +51,8 @@ async function main() {
   // scrapping finish, inserting the array of products in the DB
   console.log("Products scrapped, storing in the database");
   await mongocluster.insert(res);
+  await mongocluster.close();
+  process.exit(1);
 }
 
 main();

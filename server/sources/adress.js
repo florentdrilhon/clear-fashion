@@ -53,9 +53,9 @@ const parse = (data,category) => {
       const image =$(element)
         .find('.replace-2x.img-responsive.lazy.img_0.img_1e')
         .attr('data-original')
-      const release = (new Date).toLocaleDateString('en-US');
+      const released = (new Date).toLocaleDateString('en-US');
       if(brand && name && price && link && image && category){
-        return {brand, name, price, link, image, category, release,'_id' : uuidv5(link, uuidv5.URL)};
+        return {brand, name, price, link, image, category, released,'_id' : uuidv5(link, uuidv5.URL)};
       } return null 
     })
     .get();
