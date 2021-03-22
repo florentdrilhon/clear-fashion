@@ -7,6 +7,7 @@ const {'v5': uuidv5} = require('uuid');
 
 
 
+
 const get_info = (product)=> {
   const brand = "DEDICATED";
   const name=product.name;
@@ -15,7 +16,8 @@ const get_info = (product)=> {
   const image=product.image[0];
   const category=link.split('/')[5];
   const _id= uuidv5(link, uuidv5.URL);
-  return {brand, name,price,link,image,category, _id};
+  const release= product.price.saleStartDate;
+  return {brand, name,price,link,image,category, _id, release};
 }
 
 const parse=()=>{
@@ -56,3 +58,4 @@ const scrape = async()=> {
 }
 
 module.exports={scrape, url};
+
