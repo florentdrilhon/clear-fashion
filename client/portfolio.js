@@ -42,6 +42,7 @@ const setCurrentProducts = ({result, meta}) => {
   //updating the brands of the available products
   let brands= new Object();
   currentProducts.forEach((product, i) => {
+    if(product.brand=='loom'){product.photo="https:".concat(product.photo); }
     if(brands[product.brand]){
       brands[product.brand].push(product);
     }
@@ -89,23 +90,26 @@ const fetchProducts = async (page=1 , size = 12) => {
 const renderProducts = products => {
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
+  div.className="products-grid";
   const template = products
     .map(product => {
       return (`
-      <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
-        <a href="${product.link}" target="_blank">${product.name}</a>
-        <span>${product.price}</span>`).concat(
+      <div class="product-container" id=${product.uuid}>
+        <img src="${product.photo}" alt="product photo" class="product-photo"/>
+        <div class="product-info">
+          <h3><a href="${product.link}" target="_blank" class="product-name">${product.name}</a></h3>
+          <div class="product-brand">${product.brand}</div>
+          <div class="product-price">${product.price}€</div>`).concat(
           (currentFavorites.includes(product)) ?
-        `<span><button onclick="removeFavorite('${product.uuid}')">Remove favorite</button></span>` :
-        `<span><button onclick="addFavorite('${product.uuid}')">Add favorite</button></span>`
-      ).concat('\n</div>');
+          `<div class="product-button-favorite"><button onclick="removeFavorite('${product.uuid}')">Remove favorite</button></div>` :
+          `<div><button onclick="addFavorite('${product.uuid}')">Add favorite</button></div>`
+      ).concat('\n</div>\n</div>');
     })
     .join('');
 
   div.innerHTML = template;
   fragment.appendChild(div);
-  sectionProducts.innerHTML = '<h2>Products</h2>';
+  sectionProducts.innerHTML = '<h2 class="product-header">Products</h2>';
   sectionProducts.appendChild(fragment);
 
 };

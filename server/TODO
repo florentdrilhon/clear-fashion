@@ -1,0 +1,10 @@
+lien de l'API vercel : https://api-server-mu.vercel.app/
+
+API :
+
+- se renseigner sur les headers
+
+CLIENT :
+- requester MON api pour fetch les products
+- deployer le client
+- retravailler le front-end (react ?)
