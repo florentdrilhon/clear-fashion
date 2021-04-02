@@ -69,6 +69,7 @@ class MongoCluster {
             const result=await this.collection.find(query)
                     .skip(page>0 ? ((page-1)*size):0)
                     .limit(size)
+                    .sort({"_id": 1})
                     .toArray();
             console.log(result.length, " products gathered from the db");
             //returning the results and close connection
