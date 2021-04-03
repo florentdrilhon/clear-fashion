@@ -18,43 +18,51 @@
       <h2 class="filter-header">Filters</h2>
       <div class="filter-container">
         <div class="filter-selectors">
-          <div id="show">
+          <div id="show" class="formfield-select">
             <label for="show-select">Show:</label>
-            <select name="show" id="show-select">
-              <option value="12">12</option>
-              <option value="24">24</option>
-              <option value="48">48</option>
-            </select>
+            <div class="formfield-select--container">
+              <select name="show" id="show-select">
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+              </select>
+            </div>
           </div>
-          <div id="page">
+          <div id="page" class="formfield-select">
             <label for="page-select">Go to page:</label>
-            <select name="page" id="page-select"> </select>
+            <div class="formfield-select--container">
+              <select name="page" id="page-select"> </select>
+            </div>
           </div>
-          <div id="sort">
+          <div id="sort" class="formfield-select">
             <label for="sort-select">Sort:</label>
-            <select name="sort" id="sort-select">
-              <option value="price-asc">Cheaper</option>
-              <option value="price-desc">Expensive</option>
-              <option value="date-asc">Recently released</option>
-              <option value="date-desc">Anciently released</option>
-            </select>
+            <div class="formfield-select--container">
+              <select name="sort" id="sort-select">
+                <option value="price-asc">Cheaper</option>
+                <option value="price-desc">Expensive</option>
+                <option value="date-asc">Recently released</option>
+                <option value="date-desc">Anciently released</option>
+              </select>
+            </div>
           </div>
-          <div id="brand">
+          <div id="brand" class="formfield-select">
             <label for="brand-select">By brands:</label>
-            <select name="brand" id="brand-select"> </select>
+            <div class="formfield-select--container">
+              <select name="brand" id="brand-select"> </select>
+            </div>
           </div>
         </div>
         <div id="filters" class="filter-grid">
           <div class="filter-check">
-            <input type="checkbox" id="reasonable-price" name="reasonable-price" checked=false>
+            <input type="checkbox" id="reasonable-price" name="reasonable-price" >
             <label for="reasonable-price">By reasonable price</label>
           </div>
           <div class="filter-check">
-            <input type="checkbox" id="recently-released" name="recently-released" checked=false>
+            <input type="checkbox" id="recently-released" name="recently-released" >
             <label for="recently-released">By recently released</label>
           </div>
           <div class="filter-check">
-            <input type="checkbox" id="favorites" name="favorites" checked=false>
+            <input type="checkbox" id="favorites" name="favorites" >
             <label for="favorites">By Favorites</label>
           </div>
         </div>
@@ -63,35 +71,35 @@
     </section>
     <section id="indicators" class="indicators">
       <h2>Indicators</h2>
-      <div>
+      <div class="indicator-container"> 
         <span>Number of products : </span>
         <span id="nbProducts">0</span>
       </div>
-      <div>
+      <div class="indicator-container">
         <span>Number of new products : </span>
         <span id="newProducts">0</span>
       </div>
-      <div>
+      <div class="indicator-container">
         <span>P50 price value : </span>
         <span id="p50">0</span>
       </div>
-      <div>
+      <div class="indicator-container">
         <span>P90 price value : </span>
         <span id="p90">0</span>
       </div>
-      <div>
+      <div class="indicator-container">
         <span>P95 price value : </span>
         <span id="p95">0</span>
       </div>
-      <div>
+      <div class="indicator-container">
         <span>Last released date : </span>
         <span id="last-release">2020-01-01</span>
       </div>
     </section>
   </div>
-  <section id="products"  class="products-grid-container">
+  <section id="products" class="products-grid-container">
   </section>
-    <script type="text/javascript" charset="UTF-8" src="portfolio.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="portfolio.js"></script>
 </body>
 
 </html>

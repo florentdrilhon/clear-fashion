@@ -22,6 +22,7 @@ header h1 {
 
 body {
   color: #566b78;
+  background: linear-gradient(#fdfcfb, #e2d1c3);
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   margin: 50px;
 }
@@ -68,24 +69,82 @@ strong {
 
 .filter-selectors {
   flex:1;
+	margin: 0 0 1.5em 0;
+	
+	overflow: hidden; 
+}
+
+.formfield-select {
+	position: relative;
+}
+
+.formfield-select--container {
+	position: relative; 
+	
+	background-color: #fff;
+	border: #777 1px solid;
+	margin: 0 0 1.5em 0;
+	
+	overflow: hidden; 
+}
+
+.formfield-select--container select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	width: 110%; 
+
+	height: auto;
+	border: 0; 
+	margin: 0;
+	padding: .75em;
+	border-radius: 0;
+	
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.formfield-select--container::after { 
+	/* Le pointeur du select */
+	content: '';
+	position: absolute;
+	top: 50%; 
+	margin-top: -3px;
+	right: .75em;  
+	display: block; 
+	width: 0; height: 0;
+	border-color: transparent;
+	border-top-color: #444; 
+	border-width: 6px;
+	border-style: solid;
+	pointer-events: none;
 }
 
 .filter-grid {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin-left: 50px;
+  margin-top: 15px;
   flex:1;
 }
 
 .filter-check {
   display: flex;
   flex-direction: row;
+  margin:5px;
 }
 
 
 .indicators  {
   margin-left: 40px;
   flex:1;
+}
+
+.indicator-container {
+  margin:5px;
 }
 
 
@@ -103,8 +162,11 @@ strong {
   justify-content: center;
 }
 
+
 .product-container {
-  border:solid 1px #566b78;
+  border:solid 1.5px #244d40;
+  border-radius:5px;
+  background: linear-gradient(to right, #fdfcfb, #e2d1c3);
   margin:5px;
   display:flex;
   height: 200px;
@@ -113,7 +175,8 @@ strong {
 }
 
 .product-photo {
-  margin:2px;
+  margin:10px;
+  border-radius: 5px;
   width: 180px;
   height: 180px;
 }
@@ -127,7 +190,7 @@ strong {
 .product-name {
   flex:3;
   flex-direction: row;
-  color: #ffe433;
+  color: #244d40;
   font-weight: normal ;
   font-size: larger;
   flex:1;
